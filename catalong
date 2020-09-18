@@ -1,0 +1,53 @@
+- array(['2472', '"Rohini Sec-7', '8 Xing"', '28.708', '77.125'],
+      dtype='<U13') # stops data
+
+      what to do when i have multiple stops in the range
+
+(28.682183, 77.054367, '654', 'Qamruddin Nagar Terminal') 37.91522236613938 [ 0.         28.68229675 77.05473328]
+(28.682183, 77.054367, '654', 'Qamruddin Nagar Terminal') 36.37013689069195 [ 0.         28.68229294 77.05471802]
+(28.682183, 77.054367, '654', 'Qamruddin Nagar Terminal') 34.97143024365262 [ 0.         28.68229294 77.05470276]
+(28.682183, 77.054367, '654', 'Qamruddin Nagar Terminal') 32.19831266304791 [ 0.         28.68229294 77.05467224]
+(28.682183, 77.054367, '654', 'Qamruddin Nagar Terminal') 31.962018516024823 [ 0.         28.68228722 77.05467224]
+(28.682183, 77.054367, '654', 'Qamruddin Nagar Terminal') 32.582230054873364 [ 0.         28.68228531 77.05467987]
+(28.682183, 77.054367, '654', 'Qamruddin Nagar Terminal') 32.73938423485486 [ 0.         28.68227005 77.0546875 ]
+(28.682183, 77.054367, '654', 'Qamruddin Nagar Terminal') 32.67726912179662 [ 0.         28.68226814 77.0546875 ]
+(28.682183, 77.054367, '654', 'Qamruddin Nagar Terminal') 31.402359143654927 [ 0.         28.68224907 77.05467987]
+(28.682183, 77.054367, '654', 'Qamruddin Nagar Terminal') 31.859577117431073 [ 0.         28.68223763 77.0546875 ]
+(28.682183, 77.054367, '654', 'Qamruddin Nagar Terminal') 33.17819288999295 [ 0.         28.68223    77.05470276]
+
+426, 12315
+
+2020-09-18-16-03-32.png
+
+30metre 2020-09-18-16-37-49.png
+
+2020-09-18-17-24-08.png - short distance
+route = 426, trip = 12312, 12272
+
+route 426
+- 2020-09-18-17-48-35.png 12302
+- 2020-09-18-17-49-19.png 12313
+- 2020-09-18-17-57-17.png 12312
+
+route 104
+- 2020-09-18-18-03-42.png 2806
+
+route 1073
+- 2020-09-18-18-06-57.png 4618
+
+
+solved 426
+- 2020-09-18-18-20-20.png
+
+
+did not stop case
+- 2020-09-18-19-06-03.png
+
+might be a different stop
+- 2020-09-18-19-06-54.png
+
+0.47%
+- also there was no force blackdown (like network's always down) in that route because union of trips has stoppage over all stops
+
+rouge trips
+2020-09-18-19-41-30.png
