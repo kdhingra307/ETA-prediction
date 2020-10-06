@@ -27,16 +27,10 @@ def task(tree_file):
 # for tree_file in tqdm(glob("./assets/processed/tree/*")):
     if os.path.exists("assets/processed/stops/{}".format(tree_file.split("/")[-1])):
         return
-    tree = np.load(tree_file ,allow_pickle=True)['arr_0'].item()
-    route = next(iter(tree.keys()))
-    trip_id = next(iter(tree[route].keys()))
-    random_time = tree[route][trip_id][0][0]
-    current_data = datetime.fromtimestamp(random_time)
-    matrix = np.zeros([len(dictionary), 144]).astype(np.float32)
-    count = np.zeros([len(dictionary), 144]).astype(np.float32)
-
-    time = current_data.date()
-    start_date = int(datetime(year=time.year, month=time.month, day=time.day, hour=0, minute=0, second=0, microsecond=0).timestamp())
+    try:
+        tree = np.load(tree_file ,allow_pickle=True)['arr_0'].item()
+    except:
+        print(tree_file)
     
     stop_tree = {}
     for route_id in tree:
