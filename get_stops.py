@@ -26,7 +26,7 @@ for route_id in routes_data:
 def task(tree_file):
 # for tree_file in tqdm(glob("./assets/processed/tree/*")):
     if os.path.exists("assets/processed/stops/{}".format(tree_file.split("/")[-1])):
-        continue
+        return
     tree = np.load(tree_file ,allow_pickle=True)['arr_0'].item()
     route = next(iter(tree.keys()))
     trip_id = next(iter(tree[route].keys()))
