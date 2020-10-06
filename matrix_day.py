@@ -24,11 +24,12 @@ for route_id in routes_data:
             count += 1
 
 
-def get_start_time(route):
-    for trip in route:
-        for e in route[trip]:
-            if e != None:
-                return e[0]
+def get_start_time(stop_tree):
+    for route in stop_tree:
+        for trip in stop_tree[route]:
+            for e in stop_tree[route][trip]:
+                if e != None:
+                    return e[0]
 
 
 
@@ -42,8 +43,7 @@ for tree_file in glob("assets/processed/stops/*"):
     
     route = next(iter(stop_tree.keys()))
     trip_id = next(iter(stop_tree[route].keys()))
-    random_time = get_start_time(stop_tree[route])
-    print(random_time)
+    random_time = get_start_time(stop_tree)
     
     current_data = datetime.fromtimestamp(random_time)
     matrix = np.zeros([len(dictionary), 144]).astype(np.float32)
@@ -79,4 +79,4 @@ for tree_file in glob("assets/processed/stops/*"):
     
     matrix /= count
     matrix[np.isnan(matrix)] = 0
-    np.savez_compressed("assets/processed/matrix/{}".format(tree_file.split("/")[-1]), matrix = matrix, day=current_data.weekday())
+    np.savez_compressed("assets/processed/matrix/{}".format(tree_file.split("/")[-1]), matrix = matrix, day=current_data.weekday(), month = current_data.month, year=current_data.year, day=current_data.day)
