@@ -79,4 +79,4 @@ for tree_file in glob("assets/processed/stops/*"):
     
     matrix /= count
     matrix[np.isnan(matrix)] = 0
-    np.savez_compressed("assets/processed/matrix/{}".format(tree_file.split("/")[-1]), matrix = matrix, day=current_data.weekday(), month = current_data.month, year=current_data.year, day=current_data.day)
+    np.savez_compressed("assets/processed/matrix/{}".format(tree_file.split("/")[-1]), matrix = matrix, day=current_data.weekday(), month = current_data.month, year=current_data.year, date=current_data.day)
