@@ -1,2 +1,3 @@
 *.code-workspace
 input/*
+assets/processed

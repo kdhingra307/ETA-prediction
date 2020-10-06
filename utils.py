@@ -36,3 +36,12 @@ for e in open("input/static/trips.txt").read().split("\n")[1:-1]:
     trip_id = split[2]
     if route_id not in routes_data:
         routes_data[route_id] = np.array(sorted(trips_data[trip_id], key=lambda e:e[1]))[:, 0]
+
+
+stop_indices = {}
+count = 0
+for route_id in routes_data:
+    for s1 in routes_data[route_id]:
+        if s1 not in stop_indices:
+            stop_indices[s1] = count
+            count += 1
