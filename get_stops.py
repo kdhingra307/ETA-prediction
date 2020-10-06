@@ -8,6 +8,7 @@ from glob import glob
 ## gmplot - dependency to create geoplot
 import gmplot
 import utils
+import os 
 from random import choice
 
 stops_data = utils.stops_data
@@ -22,7 +23,10 @@ for route_id in routes_data:
             dictionary[s1] = count
             count += 1
 
-for tree_file in tqdm(glob("./assets/processed/tree/*")):
+def task(tree_file):
+# for tree_file in tqdm(glob("./assets/processed/tree/*")):
+    if os.path.exists("assets/processed/stops/{}".format(tree_file.split("/")[-1])):
+        continue
     tree = np.load(tree_file ,allow_pickle=True)['arr_0'].item()
     route = next(iter(tree.keys()))
     trip_id = next(iter(tree[route].keys()))
@@ -57,6 +61,9 @@ for tree_file in tqdm(glob("./assets/processed/tree/*")):
                 if prev_distance < 100:
                     if stop_tree[route_id][trip_id][stop_id] == None:
                         stop_tree[route_id][trip_id][stop_id] = []
-                    stop_tree[route_id][trip_id][stop_id].append(each_click)
-    print(stop_tree.keys())
-    break
+                    stop_tree[route_id][trip_id][stop_id].append(each_click[0])
+    np.savez_compressed("assets/processed/stops/{}".format(tree_file.split("/")[-1]), stop_tree)
+
+from concurrent.futures import ThreadPoolExecutor
+executor = ThreadPoolExecutor(max_workers=8)
+list(tqdm(executor.map(task, glob("./assets/processed/tree/*"))))
