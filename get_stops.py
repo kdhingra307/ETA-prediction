@@ -25,7 +25,7 @@ for route_id in routes_data:
 
 def task(tree_file):
 # for tree_file in tqdm(glob("./assets/processed/tree/*")):
-    if os.path.exists("assets/processed/stops/{}".format(tree_file.split("/")[-1])):
+    if os.path.exists("assets/processed/stops_with_speed/{}".format(tree_file.split("/")[-1])):
         return
     try:
         tree = np.load(tree_file ,allow_pickle=True)['arr_0'].item()
@@ -55,9 +55,9 @@ def task(tree_file):
                 if prev_distance < 100:
                     if stop_tree[route_id][trip_id][stop_id] == None:
                         stop_tree[route_id][trip_id][stop_id] = []
-                    stop_tree[route_id][trip_id][stop_id].append(each_click[0])
-    np.savez_compressed("assets/processed/stops/{}".format(tree_file.split("/")[-1]), stop_tree)
+                    stop_tree[route_id][trip_id][stop_id].append((each_click[0], each_click[1]))
+    np.savez_compressed("assets/processed/stops_with_speed/{}".format(tree_file.split("/")[-1]), stop_tree)
 
 from concurrent.futures import ThreadPoolExecutor
 executor = ThreadPoolExecutor(max_workers=8)
-list(tqdm(executor.map(task, glob("./assets/processed/tree/*"))))
+list(executor.tqdm(map(task, glob("./assets/processed/tree/*"))))
