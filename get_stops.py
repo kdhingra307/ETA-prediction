@@ -60,4 +60,4 @@ def task(tree_file):
 
 from concurrent.futures import ThreadPoolExecutor
 executor = ThreadPoolExecutor(max_workers=8)
-list(executor.tqdm(map(task, glob("./assets/processed/tree/*"))))
+list(tqdm(executor.map(task, glob("./assets/processed/tree/*"))))
