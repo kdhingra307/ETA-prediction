@@ -56,8 +56,8 @@ def m1to2(matrix1, route_id):
     return matrix2
 
 
-matrix1 = np.load("./assets/processed/matrix/bus_movements_2020_08-d-bus_movements_2020_08_05.db.npz")['matrix']
+matrix1 = np.load("./assets/processed/matrix/dbs-d-bus_movements_2020_08_05.db.npz")['matrix']
 
 matrix2 = m1to2(matrix1, 534)
 
-np.savez_compressed("./assets/processed/matrix2/bus_movements_2020_08-d-bus_movements_2020_08_05.db.npz", matrix = matrix2)
+np.savez_compressed("./assets/processed/matrix2/dbs-d-bus_movements_2020_08_05.db.npz", matrix = matrix2)
