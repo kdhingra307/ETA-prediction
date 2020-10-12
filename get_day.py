@@ -7,12 +7,12 @@ from random import choice
 from glob import glob
 import os
 import gmplot
-import utils
+from utils import get_route_details, get_stops_details, haversine_dist
 from random import choice
 
-stops_data = utils.stops_data
-routes_data = utils.routes_data
-haversine_dist = utils.haversine_dist
+stops_data = get_stops_details()
+routes_data = get_stops_details()
+
 logger = open("logs/processed/tree.txt", "w")
 
 for each_day in tqdm(glob("/Users/karan/Downloads/bus_movements_2020_08/*")):

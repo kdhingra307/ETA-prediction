@@ -1,3 +1,4 @@
+
 import numpy as np
 import matplotlib.pyplot as plt
 import sqlite3
@@ -5,23 +6,30 @@ from tqdm import tqdm
 from datetime import datetime
 from random import choice
 from glob import glob
-## gmplot - dependency to create geoplot
+
 import gmplot
-import utils
+from utils import get_route_details, get_stops_details, haversine_dist
 import os 
 from random import choice
 
-stops_data = utils.stops_data
-routes_data = utils.routes_data
-haversine_dist = utils.haversine_dist
+stops_data = get_stops_details()
+routes_data = get_route_details()
 
-dictionary = {}
+
+matrix1_map = {}
 count = 0
 for route_id in routes_data:
-    for s1 in utils.routes_data[route_id]:
-        if s1 not in dictionary:
-            dictionary[s1] = count
+    prev_stop = routes_data[route_id][0]
+    for next_stop in routes_data[route_id][1:]:
+        if prev_stop not in matrix1_map:
+            matrix1_map[prev_stop] = {}
+        
+        if next_stop not in matrix1_map[prev_stop]:
+            matrix1_map[prev_stop][next_stop] = count
             count += 1
+        
+        prev_stop = next_stop
+
 
 
 def get_start_time(stop_tree):
@@ -37,8 +45,8 @@ for tree_file in glob("assets/processed/stops/*"):
     if os.path.exists("assets/processed/matrix/{}".format(tree_file.split("/")[-1])):
         continue
     
-    matrix = np.zeros([len(dictionary), 144]).astype(np.float32)
-    count = np.zeros([len(dictionary), 144]).astype(np.float32)
+    matrix = np.zeros([len(matrix1_map), 144]).astype(np.float32)
+    count = np.zeros([len(matrix1_map), 144]).astype(np.float32)
     stop_tree = np.load(tree_file, allow_pickle=True)['arr_0'].item()
     
     route = next(iter(stop_tree.keys()))
@@ -46,8 +54,8 @@ for tree_file in glob("assets/processed/stops/*"):
     random_time = get_start_time(stop_tree)
     
     current_data = datetime.fromtimestamp(random_time)
-    matrix = np.zeros([len(dictionary), 144]).astype(np.float32)
-    count = np.zeros([len(dictionary), 144]).astype(np.float32)
+    matrix = np.zeros([len(matrix1_map), 144]).astype(np.float32)
+    count = np.zeros([len(matrix1_map), 144]).astype(np.float32)
 
     time = current_data.date()
     start_date = int(datetime(year=time.year, month=time.month, day=time.day, hour=0, minute=0, second=0, microsecond=0).timestamp())
@@ -71,8 +79,8 @@ for tree_file in glob("assets/processed/stops/*"):
                 if (end_time - start_time) > 1800:
                     continue
                 try:
-                    matrix[dictionary[stops[start_stop]], start_time//600] += float(end_time - start_time)/60
-                    count[dictionary[stops[start_stop]], start_time//600] += 1
+                    matrix[matrix1_map[stops[start_stop]][stops[start_stop+1]], start_time//600] += float(end_time - start_time)/60
+                    count[matrix1_map[stops[start_stop]][stops[start_stop+1]], start_time//600] += 1
                 except:
                     print(start_time, start_date, tree_file, stop_tree[route_id][each_trip][start_stop][0])
                     raise
@@ -80,3 +88,4 @@ for tree_file in glob("assets/processed/stops/*"):
     matrix /= count
     matrix[np.isnan(matrix)] = 0
     np.savez_compressed("assets/processed/matrix/{}".format(tree_file.split("/")[-1]), matrix = matrix, day=current_data.weekday(), month = current_data.month, year=current_data.year, date=current_data.day)
+# %%
