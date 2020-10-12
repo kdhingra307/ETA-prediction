@@ -16,20 +16,28 @@ stops_data = get_stops_details()
 routes_data = get_route_details()
 
 
-matrix1_map = {}
-count = 0
-for route_id in routes_data:
-    prev_stop = routes_data[route_id][0]
-    for next_stop in routes_data[route_id][1:]:
-        if prev_stop not in matrix1_map:
-            matrix1_map[prev_stop] = {}
-        
-        if next_stop not in matrix1_map[prev_stop]:
-            matrix1_map[prev_stop][next_stop] = count
-            count += 1
-        
-        prev_stop = next_stop
+def get_matrix1_map():        
+    matrix1_map = {}
+    count = 0
+    for route_id in routes_data:
+        prev_stop = routes_data[route_id][0]
+        for next_stop in routes_data[route_id][1:]:
+            if prev_stop not in matrix1_map:
+                matrix1_map[prev_stop] = {}
+            
+            if next_stop not in matrix1_map[prev_stop]:
+                matrix1_map[prev_stop][next_stop] = count
+                count += 1
+            
+            prev_stop = next_stop
+    
+    return {
+        "map" : matrix1_map,
+        "size" : count
+    }
 
+
+matrix1_map = get_matrix1_map()
 
 
 def get_start_time(stop_tree):
@@ -45,8 +53,8 @@ for tree_file in glob("assets/processed/stops/*"):
     if os.path.exists("assets/processed/matrix/{}".format(tree_file.split("/")[-1])):
         continue
     
-    matrix = np.zeros([len(matrix1_map), 144]).astype(np.float32)
-    count = np.zeros([len(matrix1_map), 144]).astype(np.float32)
+    matrix = np.zeros([matrix1_map['size'], 144]).astype(np.float32)
+    count = np.zeros([matrix1_map['size'], 144]).astype(np.float32)
     stop_tree = np.load(tree_file, allow_pickle=True)['arr_0'].item()
     
     route = next(iter(stop_tree.keys()))
@@ -54,8 +62,6 @@ for tree_file in glob("assets/processed/stops/*"):
     random_time = get_start_time(stop_tree)
     
     current_data = datetime.fromtimestamp(random_time)
-    matrix = np.zeros([len(matrix1_map), 144]).astype(np.float32)
-    count = np.zeros([len(matrix1_map), 144]).astype(np.float32)
 
     time = current_data.date()
     start_date = int(datetime(year=time.year, month=time.month, day=time.day, hour=0, minute=0, second=0, microsecond=0).timestamp())
@@ -79,8 +85,8 @@ for tree_file in glob("assets/processed/stops/*"):
                 if (end_time - start_time) > 1800:
                     continue
                 try:
-                    matrix[matrix1_map[stops[start_stop]][stops[start_stop+1]], start_time//600] += float(end_time - start_time)/60
-                    count[matrix1_map[stops[start_stop]][stops[start_stop+1]], start_time//600] += 1
+                    matrix[matrix1_map['map'][stops[start_stop]][stops[start_stop+1]], start_time//600] += float(end_time - start_time)/60
+                    count[matrix1_map['map'][stops[start_stop]][stops[start_stop+1]], start_time//600] += 1
                 except:
                     print(start_time, start_date, tree_file, stop_tree[route_id][each_trip][start_stop][0])
                     raise
