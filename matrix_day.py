@@ -8,36 +8,14 @@ from random import choice
 from glob import glob
 
 import gmplot
-from utils import get_route_details, get_stops_details, haversine_dist
+from utils import get_route_details, get_stops_details, haversine_dist, get_matrix1_map
 import os 
 from random import choice
 
 stops_data = get_stops_details()
 routes_data = get_route_details()
 
-
-def get_matrix1_map():        
-    matrix1_map = {}
-    count = 0
-    for route_id in routes_data:
-        prev_stop = routes_data[route_id][0]
-        for next_stop in routes_data[route_id][1:]:
-            if prev_stop not in matrix1_map:
-                matrix1_map[prev_stop] = {}
-            
-            if next_stop not in matrix1_map[prev_stop]:
-                matrix1_map[prev_stop][next_stop] = count
-                count += 1
-            
-            prev_stop = next_stop
-    
-    return {
-        "map" : matrix1_map,
-        "size" : count
-    }
-
-
-matrix1_map = get_matrix1_map()
+matrix1_map = get_matrix1_map(routes_data)
 
 
 def get_start_time(stop_tree):
