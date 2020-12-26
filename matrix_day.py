@@ -60,7 +60,7 @@ for tree_file in glob("assets/processed/stops_with_speed/*"):
                 end_time = (stop_tree[route_id][each_trip][start_stop+1][0][0]
                             - start_date)
                 
-                if (end_time - start_time) > 1800:
+                if (end_time - start_time) > 1800 || (end_time - start_time)  < 0:
                     continue
                 try:
                     matrix[matrix1_map['map'][stops[start_stop]][stops[start_stop+1]], start_time//600] += float(end_time - start_time)/60
@@ -73,5 +73,5 @@ for tree_file in glob("assets/processed/stops_with_speed/*"):
     matrix /= count
     matrix[np.isnan(matrix)] = 0
     np.savez_compressed("assets/processed/matrix_short/{}".format(tree_file.split("/")[-1]), matrix = matrix, day=current_data.weekday(), month = current_data.month, year=current_data.year, date=current_data.day)
-    print("Error Count in {}:- {}".format(tree_file.split("/")[-1], error_count))
+    print("Error Count in {}:- {} out of ".format(tree_file.split("/")[-1], error_count))
 # %%
