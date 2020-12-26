@@ -65,8 +65,8 @@ for tree_file in glob("assets/processed/stops_with_speed/*"):
                     matrix[matrix1_map['map'][stops[start_stop]][stops[start_stop+1]], start_time//600] += float(end_time - start_time)/60
                     count[matrix1_map['map'][stops[start_stop]][stops[start_stop+1]], start_time//600] += 1
                 except:
-                    print(start_time, start_date, tree_file, stop_tree[route_id][each_trip][start_stop][0])
-                    raise
+                    print(start_time, start_date, tree_file, stop_tree[route_id][each_trip][start_stop][0], stop_tree[route_id][each_trip][start_stop][-1])
+                    continue
     
     matrix /= count
     matrix[np.isnan(matrix)] = 0
