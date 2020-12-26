@@ -38,6 +38,7 @@ for tree_file in glob("assets/processed/stops_with_speed/*"):
     route = next(iter(stop_tree.keys()))
     trip_id = next(iter(stop_tree[route].keys()))
     random_time = get_start_time(stop_tree)
+    print(random_time)
     
     current_data = datetime.fromtimestamp(random_time)
 
