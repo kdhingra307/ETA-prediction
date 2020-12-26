@@ -30,7 +30,7 @@ def task(tree_file):
         stop_tree[route_id] = {}
         for trip_id in tree[route_id]:
             stop_tree[route_id][trip_id] = [None] * \
-                len(utils.routes_data[route_id])
+                len(routes_data[route_id])
 
             stop_id = 0
             for each_click in tree[route_id][trip_id]:
