@@ -18,6 +18,7 @@ routes_data = get_route_details()
 
 def task(tree_file):
     if os.path.exists("assets/processed/stops_with_speed/{}".format(tree_file.split("/")[-1])):
+        print("passed", tree_file)
         return
     
     try:
