@@ -43,6 +43,7 @@ for tree_file in glob("assets/processed/stops_with_speed/*"):
 
     time = current_data.date()
     start_date = int(datetime(year=time.year, month=time.month, day=time.day, hour=0, minute=0, second=0, microsecond=0).timestamp())
+    error_count = 0
     for route_id in stop_tree:
         stops = routes_data[route_id]
         for each_trip in stop_tree[route_id]:
@@ -65,10 +66,12 @@ for tree_file in glob("assets/processed/stops_with_speed/*"):
                     matrix[matrix1_map['map'][stops[start_stop]][stops[start_stop+1]], start_time//600] += float(end_time - start_time)/60
                     count[matrix1_map['map'][stops[start_stop]][stops[start_stop+1]], start_time//600] += 1
                 except:
-                    print(start_time, start_date, tree_file, stop_tree[route_id][each_trip][start_stop][0], stop_tree[route_id][each_trip][start_stop][-1])
+                    error_count += 1
+                    # print(start_time, start_date, tree_file, stop_tree[route_id][each_trip][start_stop][0], stop_tree[route_id][each_trip][start_stop][-1])
                     continue
     
     matrix /= count
     matrix[np.isnan(matrix)] = 0
     np.savez_compressed("assets/processed/matrix_short/{}".format(tree_file.split("/")[-1]), matrix = matrix, day=current_data.weekday(), month = current_data.month, year=current_data.year, date=current_data.day)
+    print("Error Count in {}:- {}".format(tree_file.split("/")[-1], error_count))
 # %%
