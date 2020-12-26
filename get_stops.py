@@ -17,7 +17,7 @@ routes_data = get_route_details()
 
 
 def task(tree_file):
-    if os.path.exists("assets/processed/stops_with_speed/200_{}".format(tree_file.split("/")[-1])):
+    if os.path.exists("assets/processed/stops_with_speed/{}".format(tree_file.split("/")[-1])):
         return
     
     try:
@@ -54,7 +54,7 @@ def task(tree_file):
                     stop_tree[route_id][trip_id][stop_id].append(
                         (each_click[0], each_click[1]))
     np.savez_compressed(
-        "assets/processed/stops_with_speed/200_{}".format(tree_file.split("/")[-1]), stop_tree)
+        "assets/processed/stops_with_speed/{}".format(tree_file.split("/")[-1]), stop_tree)
 
 
 executor = ThreadPoolExecutor(max_workers=8)
