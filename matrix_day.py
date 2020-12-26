@@ -27,7 +27,7 @@ def get_start_time(stop_tree):
 
 
 
-for tree_file in glob("assets/processed/stops/*"):
+for tree_file in glob("assets/processed/stops_with_speed/*"):
     if os.path.exists("assets/processed/matrix_short/{}".format(tree_file.split("/")[-1])):
         continue
     
