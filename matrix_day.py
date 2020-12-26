@@ -37,8 +37,7 @@ for tree_file in glob("assets/processed/stops_with_speed/*"):
     
     route = next(iter(stop_tree.keys()))
     trip_id = next(iter(stop_tree[route].keys()))
-    random_time = get_start_time(stop_tree)
-    print(random_time)
+    random_time = get_start_time(stop_tree)[0]
     
     current_data = datetime.fromtimestamp(random_time)
 
@@ -58,6 +57,8 @@ for tree_file in glob("assets/processed/stops_with_speed/*"):
                 
                 end_time = (stop_tree[route_id][each_trip][start_stop+1][0] 
                             - start_date)
+                
+                print(start_time, end_time)
                 
                 if (end_time - start_time) > 1800:
                     continue
