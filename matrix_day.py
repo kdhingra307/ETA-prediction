@@ -28,7 +28,7 @@ def get_start_time(stop_tree):
 
 
 for tree_file in glob("assets/processed/stops/*"):
-    if os.path.exists("assets/processed/matrix/{}".format(tree_file.split("/")[-1])):
+    if os.path.exists("assets/processed/matrix_short/{}".format(tree_file.split("/")[-1])):
         continue
     
     matrix = np.zeros([matrix1_map['size'], 144]).astype(np.float32)
@@ -50,14 +50,12 @@ for tree_file in glob("assets/processed/stops/*"):
             for start_stop in range(len(stops)-1):
                 if stop_tree[route_id][each_trip][start_stop] == None or stop_tree[route_id][each_trip][start_stop+1] == None:
                     continue
-                start_time = ((stop_tree[route_id][each_trip][start_stop][0]
-                                +stop_tree[route_id][each_trip][start_stop][-1])//2
+                start_time = (stop_tree[route_id][each_trip][start_stop][-1]
                             - start_date)
                 if start_time < 0:
                     continue
                 
-                end_time = ((stop_tree[route_id][each_trip][start_stop+1][0] 
-                                +stop_tree[route_id][each_trip][start_stop+1][-1])//2
+                end_time = (stop_tree[route_id][each_trip][start_stop+1][0] 
                             - start_date)
                 
                 if (end_time - start_time) > 1800:
@@ -71,5 +69,5 @@ for tree_file in glob("assets/processed/stops/*"):
     
     matrix /= count
     matrix[np.isnan(matrix)] = 0
-    np.savez_compressed("assets/processed/matrix/{}".format(tree_file.split("/")[-1]), matrix = matrix, day=current_data.weekday(), month = current_data.month, year=current_data.year, date=current_data.day)
+    np.savez_compressed("assets/processed/matrix_short/{}".format(tree_file.split("/")[-1]), matrix = matrix, day=current_data.weekday(), month = current_data.month, year=current_data.year, date=current_data.day)
 # %%
