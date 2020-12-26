@@ -15,7 +15,7 @@ routes_data = get_stops_details()
 
 logger = open("logs/processed/tree.txt", "w")
 
-for each_day in tqdm(glob("/Users/karan/Downloads/bus_movements_2020_08/*")):
+for each_day in tqdm(glob("./dbs/*/*")):
     if os.path.exists("assets/processed/tree/{}.npz".format("-d-".join(each_day.split("/")[-2:]))):
         continue
 
