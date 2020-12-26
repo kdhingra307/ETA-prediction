@@ -51,13 +51,12 @@ for tree_file in glob("assets/processed/stops_with_speed/*"):
                 if stop_tree[route_id][each_trip][start_stop] == None or stop_tree[route_id][each_trip][start_stop+1] == None:
                     continue
                 
-                print(stop_tree[route_id][each_trip][start_stop][-1])
-                start_time = (stop_tree[route_id][each_trip][start_stop][-1]
+                start_time = (stop_tree[route_id][each_trip][start_stop][-1][0]
                             - start_date)
                 if start_time < 0:
                     continue
                 
-                end_time = (stop_tree[route_id][each_trip][start_stop+1][0] 
+                end_time = (stop_tree[route_id][each_trip][start_stop+1][0][0]
                             - start_date)
                 
                 if (end_time - start_time) > 1800:
