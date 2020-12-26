@@ -60,7 +60,7 @@ for tree_file in glob("assets/processed/stops_with_speed/*"):
                 end_time = (stop_tree[route_id][each_trip][start_stop+1][0][0]
                             - start_date)
                 
-                if (end_time - start_time) > 1800 || (end_time - start_time)  < 0:
+                if (end_time - start_time) > 1800 or (end_time - start_time)  < 0:
                     continue
                 try:
                     matrix[matrix1_map['map'][stops[start_stop]][stops[start_stop+1]], start_time//600] += float(end_time - start_time)/60
