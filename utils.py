@@ -13,6 +13,28 @@ def haversine_dist(lat1, lon1, lat2, lon2):
 
     return 6373.0 * c * 1000
 
+def cartesian(lat, lon):
+    return np.array([np.sin(lat)*np.cos(lon), np.sin(lat)*np.sin(lon), np.cos(lat)])
+
+
+def get_mid_point(lat1, lon1, lat2, lon2):
+
+    lat1 = to_radian(lat1)
+    lat2 = to_radian(lat2)
+    lon1 = to_radian(lon1)
+    lon2 = to_radian(lon2)
+
+
+    p1 = cartesian(lat1, lon1)
+    p2 = cartesian(lat2, lon2)
+
+    mid_point = (p1  + p2)/2
+
+    lon3 = np.arctan(mid_point[1] / mid_point[0])
+    lat3 = np.arctan(np.sqrt(mid_point[0]**2 + mid_point[1]**2)/mid_point[2])
+
+    return lat3*57.2957, lon3*57.2957
+
 
 def get_stops_details():
     stops_data = dict()
