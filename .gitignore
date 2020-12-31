@@ -1,3 +1,5 @@
 *.code-workspace
 input/*
 assets/processed
+*.npz
+*.pyc

@@ -1,7 +1,6 @@
-#%%
 from utils import get_matrix1_map, get_route_details, get_mid_point, get_stops_details, haversine_dist
 import numpy as np
-from tqdm.notebook import tqdm
+from tqdm import tqdm
 
 routes_data = get_route_details()
 stops_data = get_stops_details()
@@ -16,31 +15,22 @@ for e in nodes_map['map']:
 
 adj_mx = np.full(fill_value=np.inf,shape=[nodes_map['size'], nodes_map['size']])
 
-def fill_recursive(stop_list, e):
 
-    if e == len(stop_list) - 1:
-        return [], [], stop_list[e], None
-    else:
-        nodes_next, distance_dp,  k, s = fill_recursive(stop_list, e+1)
-        p = nodes_map['map'][stop_list[e]][k]
+for route_id in tqdm(routes_data):
+    each_route = routes_data[route_id]
+    for stop_index in range(1, len(each_route)-1):
+        prev_stop = each_route[stop_index-1]
+        current_stop = each_route[stop_index]
+        next_stop = each_route[stop_index+1]
 
-        if s is not None:
-            new_dist = haversine_dist(*mid_points[p], *mid_points[s])
-        
-        
-        for i in range(len(nodes_next)):
-            distance_dp[i] += new_dist
-            adj_mx[p][nodes_next[i]] = min(distance_dp[i], adj_mx[p][nodes_next[i]])
-        
-        distance_dp.append(0)
-        nodes_next.append(p)
-        adj_mx[p, p] = 0
+        hop_start = nodes_map['map'][prev_stop][current_stop]
+        hop_end = nodes_map['map'][current_stop][next_stop]
 
-        return nodes_next, distance_dp, stop_list[e], p
+        adj_mx[hop_start, hop_start] = 0
+        adj_mx[hop_end, hop_end] = 0
+        adj_mx[hop_start, hop_end] = haversine_dist(*mid_points[hop_start], *mid_points[hop_end])
 
 
-for i in tqdm(routes_data):
-    fill_recursive(routes_data[i], 0)
 
 
 # ddss
@@ -74,8 +64,6 @@ print(np.mean(adj_mx), np.min(adj_mx), np.max(adj_mx))
 # adj_mx = np.maximum.reduce([adj_mx, adj_mx.T])
 
 # Sets entries that lower than a threshold, i.e., k, to zero for sparsity.
-
 adj_mx[adj_mx < 0.01] = 0
 
 np.savez_compressed("./adj_matrix", adj_mx)
-
