@@ -1,5 +1,6 @@
 import numpy as np
 
+version = "1"
 
 def to_radian(x):
     return x/57.29577951
@@ -39,25 +40,25 @@ def get_mid_point(lat1, lon1, lat2, lon2):
 def get_stops_details():
     stops_data = dict()
     i = 0
-    for e in open("input/static/stops.txt").read().split("\n")[1:-1]:
+    for e in open("input/static/stops_v{}.txt".format(version)).read().split("\n")[1:-1]:
         split = e.split(",")
-        stops_data[int(split[0])] = (float(split[-2]), float(split[-1]), split[0], split[1], i)
+        stops_data[split[0]] = (float(split[-2]), float(split[-1]), split[0], split[1], i)
         i+=1
     return stops_data
 
 
 def get_route_details():
     trips_data = dict()
-    for e in open("input/static/stop_times.txt").read().split("\n")[1:-1]:
+    for e in open("input/static/stop_times_v{}.txt".format(version)).read().split("\n")[1:-1]:
         split = e.split(",")
         trip_id = split[0]
         if trip_id not in trips_data:
             trips_data[trip_id] = []
-        trips_data[trip_id].append((int(split[3]), int(split[-1])))
+        trips_data[trip_id].append((split[3], int(split[-1])))
 
 
     routes_data = dict()
-    for e in open("input/static/trips.txt").read().split("\n")[1:-1]:
+    for e in open("input/static/trips_v{}.txt".format(version)).read().split("\n")[1:-1]:
         split = e.split(",")
         route_id = int(split[0])
         trip_id = split[2]
