@@ -18,7 +18,7 @@ routes_data = get_route_details()
 
 def task(tree_file):
     if os.path.exists(
-        "assets/processed/stops_with_speed/{}".format(tree_file.split("/")[-1])
+        "assets/processed/stops_super/{}".format(tree_file.split("/")[-1])
     ):
         print("passed", tree_file)
         return
@@ -68,9 +68,7 @@ def task(tree_file):
                     stop_tree[route_id][trip_id][stop_id].append(each_click)
 
     np.savez_compressed(
-        "assets/processed/stops_with_speed/{}".format(
-            tree_file.split("/")[-1]
-        ),
+        "assets/processed/stops_super/{}".format(tree_file.split("/")[-1]),
         stop_tree,
     )
 
