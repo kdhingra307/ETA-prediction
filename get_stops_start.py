@@ -89,7 +89,7 @@ def task(tree_file):
                 - cartesian(*stops_data[stops[e - 1]][:2])
             )
 
-        for each_trip in stop_tree[route_id]:
+        for each_trip in tree[route_id]:
             stop_tree[route_id][each_trip] = [None] * len(stops)
 
             for start_stop in range(0, len(stops)):
@@ -98,7 +98,7 @@ def task(tree_file):
                     continue
 
                 trip_stop_data = np.array(
-                    stop_tree[route_id][each_trip][start_stop]
+                    tree[route_id][each_trip][start_stop]
                 )
 
                 if (
