@@ -94,7 +94,7 @@ def task(tree_file):
 
             for start_stop in range(0, len(stops)):
 
-                if stop_tree[route_id][each_trip][start_stop] == None:
+                if tree[route_id][each_trip][start_stop] == None:
                     continue
 
                 trip_stop_data = np.array(
