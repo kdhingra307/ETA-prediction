@@ -76,15 +76,13 @@ for tree_file in glob("assets/processed/stops_aligned/*"):
                     continue
 
                 start_time = (
-                    stop_tree[route_id][each_trip][start_stop][-1][0]
-                    - start_date
+                    stop_tree[route_id][each_trip][start_stop] - start_date
                 )
                 if start_time < 0:
                     continue
 
                 end_time = (
-                    stop_tree[route_id][each_trip][start_stop + 1][0][0]
-                    - start_date
+                    stop_tree[route_id][each_trip][start_stop + 1] - start_date
                 )
 
                 if (
