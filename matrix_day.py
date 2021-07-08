@@ -115,6 +115,7 @@ for tree_file in glob("assets/processed/stops_aligned/*"):
     np.savez_compressed(
         "assets/processed/matrix_short/{}".format(tree_file.split("/")[-1]),
         matrix=matrix,
+        date=start_date,
     )
     print(
         "Error Count in {}:- {} out of ".format(
