@@ -25,7 +25,7 @@ matrix1_map = get_matrix1_map(routes_data)
 def get_start_time(stop_tree):
     stamp = {}
     for route in stop_tree:
-        if np.random.uniform() > 0.9:
+        if np.random.uniform() > 0.5:
             for trip in stop_tree[route]:
                 if np.random.uniform() > 0.5:
                     for e in stop_tree[route][trip]:
